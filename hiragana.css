@@ -1,0 +1,129 @@
+/* Reset some default browser styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Style for the header */
+header {
+    text-align: center;
+    background-color: #84a6d1;
+    padding: 20px;
+    color: white;
+}
+
+/* Style for the main content container */
+main {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+/* Style for the character container */
+.character-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Style for navigation buttons */
+.navigation-button {
+    font-size: 2rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 70px;
+    height: 70px;
+}
+
+.navigation-button:hover {
+    background-color: pink;
+    transform: scale(1.05);
+}
+
+/* Style for the character card */
+.character-card {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    flex-grow: 1;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.character-card:hover {
+    transform: scale(1.05);
+}
+
+/* Style for character info */
+.character-info {
+    margin-bottom: 20px;
+    font-weight: bold;
+    align-items: center;
+    font-size: larger;
+}
+
+.character-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.character-hiragana, .character-katakana, .character-romaji {
+    font-size: 1.2rem;
+}
+
+/* Style for audio button */
+.audio-button {
+    margin-top: 20px;
+}
+
+/* Style for example buttons */
+.example-buttons {
+    text-align: center;
+}
+
+.show-example-button, .hide-example-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.show-example-button:hover, .hide-example-button:hover {
+    background-color: pink;
+    transform: translateY(-2px);
+}
+
+/* Style for examples container */
+.example-container {
+    display: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.examplesList {
+    list-style-type: disc;
+}
+
+/* Style for footer */
+footer {
+    text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+

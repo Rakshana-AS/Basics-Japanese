@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colors</title>
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+
+<body>
+    <header>
+        <h1>Colors in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                    <div class="character-label"></div>
+                    <div class="character-color">Color:</div>
+                    <div class="character-hiragana">Hiragana: あ</div>
+
+                    <div class="character-romaji">Romanji: a</div>
+
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for each number with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const hiraganaData = [
+            {
+    "color": "Red",
+    "hiragana": "あか",
+    "romaji": "aka",
+    "audioSrc": "./color-audio/Akai.mp3",
+    "examples": [
+        "これはあかです(Kore wa aka desu.)",
+        "あかいりんごをテーブルの上に置きました(Akai ringo o teeburu no ue ni okimashita.)"
+    ]
+},
+{
+    "color": "Blue",
+    "hiragana": "あお",
+    "romaji": "ao",
+    "audioSrc": "./color-audio/Aoi.mp3",
+    "examples": [
+        "その海はあおいです(Sono umi wa aoi desu.)",
+        "あおい空に白い雲が浮かんでいました(Aoi sora ni shiroi kumo ga ukandeimashita.)"
+    ]
+},
+{
+    "color": "Green",
+    "hiragana": "みどり",
+    "romaji": "midori",
+    "audioSrc": "./color-audio/Midoriiroi.mp3",
+    "examples": [
+        "公園にはみどりの芝生が広がっています(Kouen ni wa midori no shibafu ga hirogatteimasu.)",
+        "あの山はみどりいろの木々で覆われています(Ano yama wa midori iro no kigi de oowareteimasu.)"
+    ]
+},
+{
+    "color": "Yellow",
+    "hiragana": "きいろ",
+    "romaji": "kiiro",
+    "audioSrc": "./color-audio/Kiiro.mp3",
+    "examples": [
+        "太陽はきいろいです(Taiyou wa kiiroi desu.)",
+        "きいろい花が庭に咲いています(Kiiroi hana ga niwa ni saiteimasu.)"
+    ]
+},
+{
+    "color": "Orange",
+    "hiragana": "おれんじ",
+    "romaji": "orenji",
+    "audioSrc": "./color-audio/Orenjiiro.mp3",
+    "examples": [
+        "彼女のシャツはオレンジ色です(Kanojo no shatsu wa orenji iro desu.)",
+        "オレンジ色の夕焼けが美しいですね(Orenji iro no yuuyake ga utsukushii desu ne.)"
+    ]
+},
+{
+    "color": "Purple",
+    "hiragana": "むらさき",
+    "romaji": "murasaki",
+    "audioSrc": "./color-audio/Murasakiiro.mp3",
+    "examples": [
+        "その宝石はむらさきの色をしています(Sono houseki wa murasaki no iro o shiteimasu.)",
+        "むらさき色のカーテンが窓を飾っています(Murasaki iro no kaaten ga mado o kazatteimasu.)"
+    ]
+},
+{
+    "color": "Brown",
+    "hiragana": "ちゃいろ",
+    "romaji": "chairo",
+    "audioSrc": "./color-audio/Chairo.mp3",
+    "examples": [
+        "その犬はちゃいろい毛皮を持っています(Sono inu wa chairoi kegawa o motteimasu.)",
+        "ちゃいろい木製の家具がリビングルームにあります(Chairoi mokusei no kagu ga ribinguruumu ni arimasu.)"
+    ]
+},
+{
+    "color": "Pink",
+    "hiragana": "ぴんく",
+    "romaji": "pinku",
+    "audioSrc": "./color-audio/Pinku.mp3",
+    "examples": [
+        "彼女はぴんく色のドレスを着ています(Kanojo wa pinku iro no doresu o kiteimasu.)",
+        "ぴんく色の花が庭に咲いています(Pinku iro no hana ga niwa ni saiteimasu.)"
+    ]
+},
+{
+    "color": "Black",
+    "hiragana": "くろ",
+    "romaji": "kuro",
+    "audioSrc": "./color-audio/Kuro.mp3",
+    "examples": [
+        "夜空にはたくさんのくろい星が見えます(Yozora ni wa takusan no kuroi hoshi ga miemasu.)",
+        "彼の車はくろいですね(Kare no kuruma wa kuroi desu ne.)"
+    ]
+},
+{
+    "color": "White",
+    "hiragana": "しろ",
+    "romaji": "shiro",
+    "audioSrc": "./color-audio/Shiro.mp3",
+    "examples": [
+        "新雪はしろく輝いています(Shinsetsu wa shiroku kagayaiteimasu.)",
+        "彼女はしろいドレスを着ています(Kanojo wa shiroi doresu o kiteimasu.)"
+    ]
+},
+{
+    "color": "Gold",
+    "hiragana": "きんいろ",
+    "romaji": "kin'iro",
+    "audioSrc": "./color-audio/Kin'iro.mp3",
+    "examples": [
+        "そのメダルはきんいろに輝いています(Sono medaru wa kin'iro ni kagayaiteimasu.)",
+        "きんいろの装飾が豪華な部屋です(Kin'iro no soushoku ga gouka na heya desu.)"
+    ]
+},
+{
+    "color": "Silver",
+    "hiragana": "ぎんいろ",
+    "romaji": "gin'iro",
+    "audioSrc": "./color-audio/Gin'iro.mp3",
+    "examples": [
+        "その車はぎんいろのボディを持っています(Sono kuruma wa gin'iro no bodei o motteimasu.)",
+        "ぎんいろのアクセサリーが美しく輝いています(Gin'iro no akusesarii ga utsukushiku kagayaiteimasu.)"
+    ]
+},
+{
+    "color": "Grey",
+    "hiragana": "はいいろ",
+    "romaji": "haiiro",
+    "audioSrc": "./color-audio/Haiiro.mp3",
+    "examples": [
+        "雲がはいいろに広がっています(Kumo ga haiiro ni hirogatteimasu.)",
+        "はいいろのスーツが彼によく似合っています(Haiiro no suutsu ga kare ni yoku niatteimasu.)"
+    ]
+},
+{
+    "color": "Magenta",
+    "hiragana": "まぜんた",
+    "romaji": "mazenta",
+    "audioSrc": "./color-audio/Mazenta.mp3",
+    "examples": [
+        "その花はまぜんた色の花びらを持っています(Sono hana wa mazenta iro no hanabira o motteimasu.)",
+        "まぜんた色のペンで絵を描いています(Mazenta iro no pen de e o kaiteimasu.)"
+    ]
+}
+];
+
+        let currentIndex = 0;
+        const characterCard = document.getElementById('characterCard');
+        const audioElement = document.getElementById('audio');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const examplesList = document.getElementById('examplesList');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateCharacterCard(index) {
+            const currentData = hiraganaData[index];
+            characterCard.querySelector('.character-color').textContent = `Color: ${currentData.color}`;
+            characterCard.querySelector('.character-hiragana').textContent = `Hiragana: ${currentData.hiragana}`;
+            // characterCard.querySelector('.character-katakana').textContent = `Kanji: ${currentData.kanji}`;
+            characterCard.querySelector('.character-romaji').textContent = `Romanji: ${currentData.romaji}`;
+            audioElement.src = currentData.audioSrc;
+
+            // Clear existing examples
+            examplesList.innerHTML = '';
+
+            // Add examples
+            currentData.examples.forEach(example => {
+                const listItem = document.createElement('li');
+                listItem.textContent = example;
+                examplesList.appendChild(listItem);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + hiraganaData.length) % hiraganaData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % hiraganaData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first character
+        updateCharacterCard(currentIndex);
+    </script>
+</body>
+
+</html>

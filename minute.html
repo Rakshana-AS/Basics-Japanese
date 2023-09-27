@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minutes</title>
+    <!-- Add a link to your CSS file if you have one -->
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+
+<body>
+    <header>
+        <h1>Minutes in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                    <div class="character-number">Katakana: ア</div>
+                    <div class="character-hiragana">Hiragana: あ</div>
+
+                    <div class="character-romaji">Romanji: a</div>
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for each number with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const characterData = [
+            {
+                number: '1',
+                hiragana: 'いっぷん',
+                katakana: 'イップン',
+                romaji: 'ippon',
+                audioSrc: './minute-audio/ippon.mp3',
+                examples: [
+                    "これはいっぷん前です (Kore wa ippun mae desu)",
+                    "いっぷん遅れても大丈夫です (Ippun okuretemo daijōbu desu)"
+                ]
+            },
+            {
+                number: '2',
+                hiragana: 'にふん',
+                katakana: 'ニフン',
+                romaji: 'nifun',
+                audioSrc: './minute-audio/nifun.mp3',
+                examples: [
+                    "列車はにふん後に出発します (Ressha wa nifun go ni shuppatsu shimasu)",
+                    "タイマーをにふんセットしてください (Taimā o nifun setto shite kudasai)"
+                ]
+            },
+            {
+                number: '3',
+                hiragana: 'さんぷん',
+                katakana: 'サンプン',
+                romaji: 'sanpun',
+                audioSrc: './minute-audio/sanpun.mp3',
+                examples: [
+                    "会議はさんぷん後に始まります (Kaigi wa sanpun go ni hajimarimasu)",
+                    "お待ちいただくのはさんぷんです (Omachi itadaku no wa sanpun desu)"
+                ]
+            },
+            {
+                number: '4',
+                hiragana: 'よんぷん',
+                katakana: 'ヨンプン',
+                romaji: 'yonpun',
+                audioSrc: './minute-audio/yonpun.mp3',
+                examples: [
+                    "イベントはよんぷん前に開始します (Ibento wa yonpun mae ni kaishi shimasu)",
+                    "あとよんぷんで到着予定です (Ato yonpun de tōchaku yotei desu)"
+                ]
+            },
+            {
+                number: '5',
+                hiragana: 'ごふん',
+                katakana: 'ゴフン',
+                romaji: 'gofun',
+                audioSrc: './minute-audio/gofun.mp3',
+                examples: [
+                    "ごふんで終了します (Gofun de shūryō shimasu)",
+                    "ごふん以内にお越しください (Gofun inai ni okoshi kudasai)"
+                ]
+            },
+            {
+                number: '6',
+                hiragana: 'ろっぷん',
+                katakana: 'ロップン',
+                romaji: 'roppun',
+                audioSrc: './minute-audio/roppun.mp3',
+                examples: [
+                    "あとろっぷんで開始します (Ato rokupun de kaishi shimasu)",
+                    "タイマーはろくぷん間隔で作動します (Taimā wa rokupun kankaku de sadōします)"
+                ]
+            },
+            {
+                number: '7',
+                hiragana: 'しちふん',
+                katakana: 'シチフン',
+                romaji: 'shichifun',
+                audioSrc: './minute-audio/shichifun.mp3',
+                examples: [
+                    "車はしちふん待ってから出発しました (Kuruma wa shichifun matte kara shuppatsu shimashita)",
+            "しちふん間にクイズを解こう (Shichifun kan ni kuizu o tokou)"
+                ]
+            },
+            {
+                number: '8',
+                hiragana: 'はっぷん',
+                katakana: 'ハップン',
+                romaji: 'happun',
+                audioSrc: './minute-audio/happun.mp3',
+                examples: [
+                    "電車ははっぷん遅れています (Densha wa happun okureteimasu)",
+                    "はっぷんで会場に到着します (Happun de kaijō ni tōchakuします)"
+                ]
+            },
+            {
+                number: '9',
+                hiragana: 'きゅうふん',
+                katakana: 'キュウフン',
+                romaji: 'kyuufun',
+                audioSrc: './minute-audio/kyuufun.mp3',
+                examples: [
+                    "あときゅうふんで始まります (Ato kyūfun de hajimarimasu)",
+                    "タイマーをきゅうふん設定してください (Taimā o kyūfun settei shite kudasai)"
+                ]
+            },
+            {
+                number: '10',
+                hiragana: 'じゅっぷん',
+                katakana: 'ジュップン',
+                romaji: 'juppun',
+                audioSrc: './minute-audio/juppun.mp3',
+                examples: [
+                    "イベントはじゅっぷん前に予約が必要です (Ibento wa juppun mae ni yoyaku ga hitsuyō desu)",
+                    "じゅっぷん後に再接続してください (Juppun go ni saisetsuzoku shite kudasai)"
+                ]
+            },
+            {
+                number: '11',
+                hiragana: 'じゅういちふん',
+                katakana: 'ジュウイチフン',
+                romaji: 'juuichifun',
+                audioSrc: './minute-audio/juuichifun.mp3',
+                examples: [
+                    "ミーティングはじゅういっぷん前に終了します (Mītingu wa jūippon mae ni shūryōします)",
+                    "じゅういっぷんたってから出発しましょう (Jūippon tatte kara shuppatsu shimashou)"
+                ]
+            },
+            {
+                number: '12',
+                hiragana: 'じゅうにふん',
+                katakana: 'ジュウニフン',
+                romaji: 'juunifun',
+                audioSrc: './minute-audio/juunifun.mp3',
+                examples: [
+                    "タイマーをじゅうにふんに設定してください (Taimā o jūnifun ni settei shite kudasai)",
+                    "じゅうにふん待っていてください (Jūnifun matteite kudasai)"
+                ]
+            },
+            {
+                number: '13',
+                hiragana: 'じゅうさんふん',
+                katakana: 'ジュウサンフン',
+                romaji: 'juusanfun',
+                audioSrc: './minute-audio/juusanfun.mp3',
+                examples: [
+                    "じゅうさんぷん前に準備ができます (Jūsanpun mae ni junbi ga dekimasu)",
+                    "じゅうさんぷんでお会いしましょう (Jūsanpun de oai shimashou)"
+                ]
+            },
+            {
+                number: '14',
+                hiragana: 'じゅうしふん',
+                katakana: 'ジュウシフン',
+                romaji: 'juushifun',
+                audioSrc: './minute-audio/juushifun.mp3',
+                examples: [
+                    "タイマーはじゅうよんぷん後にアラームが鳴ります (Taimā wa jūyonpun go ni arāmu ga narimasu)",
+                    "じゅうよんぷん以内にお返事ください (Jūyonpun inai ni ohenji kudasai)"
+                ]
+            },
+            {
+                number: '15',
+                hiragana: 'じゅうごふん',
+                katakana: 'ジュウゴフン',
+                romaji: 'juugofun',
+                audioSrc: './minute-audio/juugofun.mp3',
+                examples: [
+                    "これはじゅうごふん前の警告です (Kore wa jūgofun mae no keikoku desu)",
+                    "じゅうごふん後に開始します (Jūgofun go ni kaishi shimasu)"
+                ]
+            },
+            {
+                number: '16',
+                hiragana: 'じゅうろっぷん',
+                katakana: 'ジュウロップン',
+                romaji: 'juuroppun',
+                audioSrc: './minute-audio/juuroppun.mp3',
+                examples: [
+                    "あとじゅうろっぷんで到着予定です (Ato jūroppun de tōchaku yotei desu)",
+                    "イベントはじゅうろっぷん前に詳細を送信します (Ibento wa jūroppun mae ni shōsai o sōshinします)"
+                ]
+            },
+            {
+                number: '17',
+                hiragana: 'じゅうしちふん',
+                katakana: 'ジュウシチフン',
+                romaji: 'juushichifun',
+                audioSrc: './minute-audio/juushichifun.mp3',
+                examples: [
+                    "これはじゅうしちふんは数字の17です(Kore wa juushichifun wa suuji no 17 desu.)",
+                    "じゅうしちふんたって(Juushichifun tatte)"
+                ]
+            },
+            {
+                number: '18',
+                hiragana: 'じゅうはちふん',
+                katakana: 'ジュウハチフン',
+                romaji: 'juuhachifun',
+                audioSrc: './minute-audio/juuhachifun.mp3',
+                examples: [
+                    "イベントはじゅうはちふん前に開始します(Ibento wa juuhachifun mae ni kaishi shimasu)",
+                    "じゅうはちふんたっても遅くありません(Juuhachifun tatte mo osoku arimasen)"
+                ]
+            },
+            {
+                number: '19',
+                hiragana: 'じゅうきゅうふん',
+                katakana: 'ジュウキュウフン',
+                romaji: 'juukyuufun',
+                audioSrc: './minute-audio/juukyuufun.mp3',
+                examples: [
+                    "じゅうきゅうふん前に確認してください(Juukyuuifun mae ni kakunin shite kudasai)",
+                    "じゅうきゅうふんたっても大丈夫です(Juukyuuifun tatte mo daijoubu desu)"
+                ]
+            },
+            {
+                number: '20',
+                hiragana: 'にじゅっぷん',
+                katakana: 'ニジュップン',
+                romaji: 'nijuppun',
+                audioSrc: './minute-audio/nijuppun.mp3',
+                examples: [
+                    "これはにじゅうふんは数字の20です(Kore wa nijuuifun wa suuji no 20 desu.)",
+                    "にじゅうふんたって(Nijuuifun tatte)"
+                ]
+            },
+            {
+                number: '30',
+                hiragana: 'さんじゅっぷん',
+                katakana: 'サンジュップン',
+                romaji: 'sanjuppun',
+                audioSrc: './minute-audio/sanjuppun.mp3',
+                examples: [
+                    "30分で終了予定です(30-fun de shuuryou yotei desu)",
+                    "30分たっても休憩中です(30-fun tatte mo kyuukeichuu desu)"
+                ]
+            },
+            {
+                number: '40',
+                hiragana: 'よんじゅっぷん',
+                katakana: 'ヨンジュップン',
+                romaji: 'yonjuppun',
+                audioSrc: './minute-audio/yonjuppun.mp3',
+                examples: [
+                    "40分後に再開します(40-fun go ni saikai shimasu)",
+                    "40分たってもまだ中断中です(40-fun tatte mo mada chūdanchuu desu)"
+                ]
+            },
+            {
+                number: '50',
+                hiragana: 'ごじゅっぷん',
+                katakana: 'ゴジュップン',
+                romaji: 'gojuppun',
+                audioSrc: './minute-audio/gojuppun.mp3',
+                examples: [
+                    "50分は長い授業です(50-fun wa nagai jugyou desu)",
+                    "50分たっても集中力が続きます(50-fun tatte mo shuuchuuriki ga tsuzukimasu)"
+                ]
+            },
+            {
+                number: '60',
+                hiragana: 'ろくじゅっぷん',
+                katakana: 'ロクジュップン',
+                romaji: 'rokujuppun',
+                audioSrc: './minute-audio/rokujuppun.mp3',
+                examples: [
+                    "60分は1時間です(60-fun wa ichijikan desu)",
+                    "60分たっても待っています(60-fun tatte mo matteimasu)"
+                ]
+            },
+        ];
+
+
+        let currentIndex = 0;
+        const characterCard = document.getElementById('characterCard');
+        const audioElement = document.getElementById('audio');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const examplesList = document.getElementById('examplesList');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateCharacterCard(index) {
+            characterCard.querySelector('.character-hiragana').textContent = `Hiragana: ${characterData[index].hiragana}`;
+            characterCard.querySelector('.character-number').textContent = `Minute: ${characterData[index].number}`;
+            characterCard.querySelector('.character-romaji').textContent = `Romanji: ${characterData[index].romaji}`;
+            audioElement.src = characterData[index].audioSrc;
+
+            // Clear existing examples
+            examplesList.innerHTML = '';
+
+            // Add examples
+            characterData[index].examples.forEach(example => {
+                const listItem = document.createElement('li');
+                listItem.textContent = example;
+                examplesList.appendChild(listItem);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + characterData.length) % characterData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % characterData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first character
+        updateCharacterCard(currentIndex);
+    </script>
+</body>
+
+</html>

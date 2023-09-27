@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship-Names</title>
+    <!-- Add a link to your CSS file if you have one -->
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+
+<body>
+    <header>
+        <h1>Relationship-Names in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                    <div class="character-relationship">Name: </div>
+                    <div class="character-hiragana">Hiragana: あ</div>
+                    <div class="character-romaji">Romanji: </div>
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for each month with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const relationshipsData =
+            [
+                {
+                    "relationship": "Mother",
+                    "hiragana": "はは",
+                    "kanji": "母",
+                    "romaji": "Haha",
+                    "audioSrc": "./relationship-audio/Haha.mp3",
+                    "examples": [
+                        "母は毎晩美味しい夕食を作ります(Haha wa maiban oishii yuushoku o tsukurimasu.)",
+                        "母の笑顔が一番素敵です(Haha no egao ga ichiban suteki desu.)"
+                    ]
+                },
+                {
+                    "relationship": "Father",
+                    "hiragana": "ちち",
+                    "kanji": "父",
+                    "romaji": "Chichi",
+                    "audioSrc": "./relationship-audio/Chichi.mp3",
+                    "examples": [
+                        "私の父は毎朝新聞を読みます(Watashi no chichi wa maiasa shinbun o yomimasu.)",
+                        "父は私に自転車を買ってくれました(Chichi wa watashi ni jitensha o katte kuremashita.)"
+                    ]
+                },
+                {
+                    "relationship": "Elder Brother",
+                    "hiragana": "あに",
+                    "kanji": "兄",
+                    "romaji": "Ani",
+                    "audioSrc": "./relationship-audio/Ani.mp3",
+                    "examples": [
+                        "兄はプログラミングが得意です(Ani wa puroguramingu ga tokui desu.)",
+                        "兄と遊んで楽しい時間を過ごしました(Ani to asonde tanoshii jikan o sugoshimashita.)"
+                    ]
+                },
+
+                {
+                    "relationship": "Elder Sister",
+                    "hiragana": "あね",
+                    "kanji": "姉",
+                    "romaji": "Ane",
+                    "audioSrc": "./relationship-audio/Ane.mp3",
+                    "examples": [
+                        "姉は私の悩みを聞いてくれる(Ane wa watashi no nayami o kiitekureru.)",
+                        "姉と買い物に行くのが楽しいです(Ane to kaimono ni iku no ga tanoshii desu.)"
+                    ]
+                },
+                {
+                    "relationship": "Younger Brother",
+                    "hiragana": "おとうと",
+                    "kanji": "弟",
+                    "romaji": "Otouto",
+                    "audioSrc": "./relationship-audio/Otouto.mp3",
+                    "examples": [
+                        "弟はサッカーが得意です(Otouto wa sakkaa ga tokui desu.)",
+                        "弟と一緒にゲームを楽しんでいます(Otouto to issho ni geemu o tanoshindeimasu.)"
+                    ]
+                },
+
+                {
+                    "relationship": "Grandfather",
+                    "hiragana": "おじいさん",
+                    "kanji": "祖父",
+                    "romaji": "Ojiisan",
+                    "audioSrc": "./relationship-audio/Ojiisan.mp3",
+                    "examples": [
+                        "おじいさんはいつも面白い話をしてくれます(Ojiisan wa itsumo omoshiroi hanashi o shitekuremasu.)",
+                        "おじいさんの家でたくさんの思い出があります(Ojiisan no ie de takusan no omoide ga arimasu.)"
+                    ]
+                },
+                {
+                    "relationship": "Grandmother",
+                    "hiragana": "おばあさん",
+                    "kanji": "祖母",
+                    "romaji": "Obaasan",
+                    "audioSrc": "./relationship-audio/Obaasan.mp3",
+                    "examples": [
+                        "わたしのおばあさんはむかしのはなしをかたる(Watashi no obaasan wa mukashi no hanashi o kataru.)",
+                        "わたしはおばあさんのはなしをきくのがだいすきです(Watashi wa obaasan no hanashi o kiku no ga daisuki desu."
+                    ]
+                },
+
+
+                {
+                    "relationship": "Uncle",
+                    "hiragana": "おじ",
+                    "kanji": "叔父",
+                    "romaji": "Oji",
+                    "audioSrc": "./relationship-audio/Oji.mp3",
+                    "examples": [
+                        "叔父はクッキングが得意です(Oji wa kukkingu ga tokui desu.)",
+                        "叔父と一緒に釣りに行きました(Oji to issho ni tsuri ni ikimashita.)"
+                    ]
+                },
+                {
+                    "relationship": "Aunt",
+                    "hiragana": "おば",
+                    "kanji": "叔母",
+                    "romaji": "Oba",
+                    "audioSrc": "./relationship-audio/Oba.mp3",
+                    "examples": [
+                        "叔母は美味しい料理を作ります(Oba wa oishii ryouri o tsukurimasu.)",
+                        "叔母の家で楽しい時間を過ごしました(Oba no ie de tanoshii jikan o sugoshimashita.)"
+                    ]
+                },
+                {
+                    "relationship": "Husband",
+                    "hiragana": "おっと",
+                    "kanji": "夫",
+                    "romaji": "Otto",
+                    "audioSrc": "./relationship-audio/Otto.mp3",
+                    "examples": [
+                        "夫と一緒に旅行に行くのが楽しみです(Otto to issho ni ryokou ni iku no ga tanoshimidesu.)",
+                        "夫は毎晩夕食を作ります(Otto wa maiban yuushoku o tsukurimasu.)"
+                    ]
+                },
+                {
+                    "relationship": "Wife",
+                    "hiragana": "つま",
+                    "kanji": "妻",
+                    "romaji": "Tsuma",
+                    "audioSrc": "./relationship-audio/Tsuma.mp3",
+                    "examples": [
+                        "妻と一緒に映画を観に行く予定です(Tsuma to issho ni eiga o mi ni iku yotei desu.)",
+                        "妻は優れた料理人です(Tsuma wa sugureta ryourinin desu.)"
+                    ]
+                },
+                {
+                    "relationship": "Lover",
+                    "hiragana": "こいびと",
+                    "kanji": "恋人",
+                    "romaji": "Koibito",
+                    "audioSrc": "./relationship-audio/Koibito.mp3",
+                    "examples": [
+                        "恋人と海辺で散歩するのが好きです(Koibito to umibe de sanpo suru no ga suki desu.)",
+                        "恋人とのデートは特別な時間です(Koibito to no deeto wa tokubetsu na jikan desu.)"
+                    ]
+                },
+                {
+                    "relationship": "Boyfriend",
+                    "hiragana": "かれし",
+                    "kanji": "彼氏",
+                    "romaji": "Kareshi",
+                    "audioSrc": "./relationship-audio/Kare.mp3",
+                    "examples": [
+                        "彼氏と一緒にコンサートに行きました(Kareshi to issho ni konsaato ni ikimashita.)",
+                        "彼氏は音楽が好きです(Kareshi wa ongaku ga suki desu.)"
+                    ]
+                },
+                {
+                    "relationship": "Girlfriend",
+                    "hiragana": "かのじょ",
+                    "kanji": "彼女",
+                    "romaji": "Kanojo",
+                    "audioSrc": "./relationship-audio/Kanojo.mp3",
+                    "examples": [
+                        "彼女とのデートはいつも楽しいです(Kanojo to no deeto wa itsumo tanoshii desu.)",
+                        "彼女は絵を描くのが上手です(Kanojo wa e o kaku no ga jouzu desu.)"
+                    ]
+                },
+                {
+                    "relationship": "Friend",
+                    "hiragana": "ともだち",
+                    "kanji": "友達",
+                    "romaji": "Tomodachi",
+                    "audioSrc": "./relationship-audio/Tomodachi.mp3",
+                    "examples": [
+                        "友達と一緒に遠出するのが楽しいです(Tomodachi to issho ni toode suru no ga tanoshii desu.)",
+                        "友達との時間は貴重です(Tomodachi to no jikan wa kichou desu.)"
+                    ]
+                },
+                {
+                    "relationship": "Enemy",
+                    "hiragana": "てき",
+                    "kanji": "敵",
+                    "romaji": "Teki",
+                    "audioSrc": "./relationship-audio/Teki.mp3",
+                    "examples": [
+                        "敵との競争は激しいです(Teki to no kyousou wa hageshii desu.)",
+                        "敵から学ぶこともあります(Teki kara manabu koto mo arimasu.)"
+                    ]
+                },
+
+
+                // Add more relationship objects here...
+            ];
+
+        let currentIndex = 0;
+        const characterCard = document.getElementById('characterCard');
+        const audioElement = document.getElementById('audio');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const examplesList = document.getElementById('examplesList');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateCharacterCard(index) {
+            characterCard.querySelector('.character-hiragana').textContent = `Hiragana: ${relationshipsData[index].hiragana}`;
+            characterCard.querySelector('.character-relationship').textContent = `Name: ${relationshipsData[index].relationship}`;
+            characterCard.querySelector('.character-romaji').textContent = `Romanji: ${relationshipsData[index].romaji}`;
+            audioElement.src = relationshipsData[index].audioSrc;
+
+            // Clear existing examples
+            examplesList.innerHTML = '';
+
+            // Add examples
+            relationshipsData[index].examples.forEach(example => {
+                const listItem = document.createElement('li');
+                listItem.textContent = example;
+                examplesList.appendChild(listItem);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + relationshipsData.length) % relationshipsData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % relationshipsData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first data object
+        updateCharacterCard(currentIndex);
+    </script>
+</body>
+
+</html>

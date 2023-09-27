@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days of the Week </title>
+    <!-- Add a link to your CSS file if you have one -->
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+
+<body>
+    <header>
+        <h1>Days of the Week in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                    <div class="character-number">Number: </div>
+
+                    <div class="character-hiragana">Hiragana: あ</div>
+                    <div class="character-romaji">Romanji: </div>
+
+
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for each day of the week with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const daysOfWeekData = [
+            {
+                "number": "Monday",
+                "hiragana": "げつようび",
+                "kanji": "月曜日",
+                "romaji": "getsuyōbi",
+                "audioSrc": "./days-audio/getsuyoubi.mp3",
+                "examples": [
+                    "月曜日は仕事の始まりです。(Getsuyoubi wa shigoto no hajimari desu.)",
+                    "月曜日に友達と昼食を楽しみます。(Getsuyoubi ni tomodachi to chuushoku o tanoshimimasu.)"
+                ]
+            },
+            {
+                "number": "Tuesday",
+                "hiragana": "かようび",
+                "kanji": "火曜日",
+                "romaji": "kayōbi",
+                "audioSrc": "./days-audio/kayoubi.mp3",
+                "examples": [
+                    "火曜日はスポーツをします。(Kayoubi wa supootsu o shimasu.)",
+                    "火曜日に新しいレシピを試します。(Kayoubi ni atarashii reshipi o tameshimasu.)"
+                ]
+            },
+            {
+                "number": "Wednesday",
+                "hiragana": "すいようび",
+                "kanji": "水曜日",
+                "romaji": "suiyōbi",
+                "audioSrc": "./days-audio/suiyoubi.mp3",
+                "examples": [
+                    "水曜日は学校で勉強します。(Suiyoubi wa gakkou de benkyou shimasu.)",
+                    "水曜日は美術展を鑑賞します。(Suiyoubi wa bijutsu-ten o kanshou shimasu.)"
+                ]
+            },
+            {
+                "number": "Thursday",
+                "hiragana": "もくようび",
+                "kanji": "木曜日",
+                "romaji": "mokuyōbi",
+                "audioSrc": "./days-audio/mokuyoubi.mp3",
+                "examples": [
+                    "木曜日に家族とディナーを楽しむ予定です。(Mokuyoubi ni kazoku to dinnaa o tanoshimu yotei desu.)",
+                    "木曜日に新しいプロジェクトを始めます。(Mokuyoubi ni atarashii purojekuto o hajimemasu.)"
+                ]
+            },
+            {
+                "number": "Friday",
+                "hiragana": "きんようび",
+                "kanji": "金曜日",
+                "romaji": "kinyōbi",
+                "audioSrc": "./days-audio/kinyoubi.mp3",
+                "examples": [
+                    "金曜日は週末を迎える準備をします。(Kinyoubi wa shuumatsu o mukaeru junbi o shimasu.)",
+                    "金曜日に友達とカラオケに行きます。(Kinyoubi ni tomodachi to karaoke ni ikimasu.)"
+                ]
+            },
+            {
+                "number": "Saturday",
+                "hiragana": "どようび",
+                "kanji": "土曜日",
+                "romaji": "doyōbi",
+                "audioSrc": "./days-audio/doyoubi.mp3",
+                "examples": [
+                    "土曜日は自然の中で散歩します。(Doyoubi wa shizen no naka de sanpo shimasu.)",
+                    "土曜日は映画館で新作映画を観ます。(Doyoubi wa eigakan de shinsaku eigai o mikimasu.)"
+                ]
+            },
+            {
+                "number": "Sunday",
+                "hiragana": "にちようび",
+                "kanji": "日曜日",
+                "romaji": "nichiyōbi",
+                "audioSrc": "./days-audio/nichiyoubi.mp3",
+                "examples": [
+                    "日曜日は家でリラックスします。(Nichiyoubi wa ie de rirakkusu shimasu.)",
+                    "日曜日に友達とピクニックに出かけます。(Nichiyoubi ni tomodachi to pikunikku ni dekakemasu.)"
+                ]
+            }
+        ];
+
+
+
+
+
+        let currentIndex = 0;
+        const characterCard = document.getElementById('characterCard');
+        const audioElement = document.getElementById('audio');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const examplesList = document.getElementById('examplesList');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateCharacterCard(index) {
+            characterCard.querySelector('.character-hiragana').textContent = `Hiragana: ${daysOfWeekData[index].hiragana}`;
+            characterCard.querySelector('.character-number').textContent = `Number: ${daysOfWeekData[index].number}`;
+            characterCard.querySelector('.character-romaji').textContent = `Romanji: ${daysOfWeekData[index].romaji}`;
+            audioElement.src = daysOfWeekData[index].audioSrc;
+
+            // Clear existing examples
+            examplesList.innerHTML = '';
+
+            // Add examples
+            daysOfWeekData[index].examples.forEach(example => {
+                const listItem = document.createElement('li');
+                listItem.textContent = example;
+                examplesList.appendChild(listItem);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + daysOfWeekData.length) % daysOfWeekData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % daysOfWeekData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first day of the week
+        updateCharacterCard(currentIndex);
+    </script>
+</body>
+
+</html>

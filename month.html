@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Months</title>
+    <!-- Add a link to your CSS file if you have one -->
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+<body>
+    <header>
+        <h1>Months in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                  
+                    <div class="character-katakana">English: ア</div>
+                    <div class="character-hiragana">Hiragana: あ</div>
+                    <div class="character-romaji">Romanji: a</div>
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for each month with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const months = [
+    {
+        name: 'January',
+        hiragana: 'いちがつ',
+        katakana: 'イチガツ',
+        romaji: 'Ichigatsu',
+        audioSrc: './month-audio/Ichigatsu.mp3',
+        examples: [
+            "わたしの たんじょうび は いちがつ です(Watashi no tanjoubi wa ichigatsu desu.)",
+            "いちがつ に ゆき が ふります(Ichigatsu ni yuki ga furimasu.)"
+        ]
+    },
+    {
+        name: 'February',
+        hiragana: 'にがつ',
+        katakana: 'ニガツ',
+        romaji: 'Nigatsu',
+        audioSrc: './month-audio/Nigatsu.mp3',
+        examples: [
+            "にがつ に たんじょうび が あります(Nigatsu ni tanjoubi ga arimasu.)",
+            "にがつ は さむい です(Nigatsu wa samui desu.)"
+        ]
+    },
+    {
+        name: 'March',
+        hiragana: 'さんがつ',
+        katakana: 'サンガツ',
+        romaji: 'Sangatsu',
+        audioSrc: './month-audio/Sangatsu.mp3',
+        examples: [
+            "さんがつ に はな が さきます(Sangatsu ni hana ga sakimasu.)",
+            "わたしの いえ は さんがつ に たつ むぎ を うえます(Watashi no ie wa sangatsu ni tachimugi o uemasu.)"
+        ]
+    },
+    {
+        name: 'April',
+        hiragana: 'しがつ',
+        katakana: 'シガツ',
+        romaji: 'Shigatsu',
+        audioSrc: './month-audio/Shigatsu.mp3',
+        examples: [
+            "しがつ は さくらんぼ の じかん です(Shigatsu wa sakuranbo no jikan desu.)",
+            "しがつ に ひとつ おおきな まつり が あります(Shigatsu ni hitotsu ookina matsuri ga arimasu.)"
+        ]
+    },
+    {
+        name: 'May',
+        hiragana: 'ごがつ',
+        katakana: 'ゴガツ',
+        romaji: 'Gogatsu',
+        audioSrc: './month-audio/Gogatsu.mp3',
+        examples: [
+            "ごがつ は こども の ひ です(Gogatsu wa kodomo no hi desu.)",
+            "ごがつ に あじさい が さいて きれい です(Gogatsu ni ajisai ga saite kirei desu.)"
+        ]
+    },
+    {
+        name: 'June',
+        hiragana: 'ろくがつ',
+        katakana: 'ロクガツ',
+        romaji: 'Rokugatsu',
+        audioSrc: './month-audio/Rokugatsu.mp3',
+        examples: [
+            "ろくがつ は なつ の ひび です(Rokugatsu wa natsu no hibi desu.)",
+            "ろくがつ に うみ で およぐ の が だいすき です(Rokugatsu ni umi de oyogu no ga daisuki desu.)"
+        ]
+    },
+    {
+        name: 'July',
+        hiragana: 'しちがつ',
+        katakana: 'シチガツ',
+        romaji: 'Shichigatsu',
+        audioSrc: './month-audio/Shichigatsu.mp3',
+        examples: [
+            "しちがつ は たなばた の じかん です(Shichigatsu wa tanabata no jikan desu.)",
+            "しちがつ に かきごおり を たべる の が おいしい です(Shichigatsu ni kakigoori o taberu no ga oishii desu.)"
+        ]
+    },
+    {
+        name: 'August',
+        hiragana: 'はちがつ',
+        katakana: 'ハチガツ',
+        romaji: 'Hachigatsu',
+        audioSrc: './month-audio/Hachigatsu.mp3',
+        examples: [
+            "はちがつ は おひさま が ひつよう です(Hachigatsu wa ohisama ga hitsuyou desu.)",
+            "はちがつ に おばあちゃん の うち へ いきます(Hachigatsu ni obaachan no uchi e ikimasu.)"
+        ]
+    },
+    {
+        name: 'September',
+        hiragana: 'くがつ',
+        katakana: 'クガツ',
+        romaji: 'Kugatsu',
+        audioSrc: './month-audio/Kugatsu.mp3',
+        examples: [
+            "くがつ に ぶどう が うれしい です(Kugatsu ni budou ga ureshii desu.)",
+            "くがつ は きんぎょ の すいどう が いちばん きれい です(Kugatsu wa kingyo no suidou ga ichiban kirei desu.)"
+        ]
+    },
+    {
+        name: 'October',
+        hiragana: 'じゅうがつ',
+        katakana: 'ジュウガツ',
+        romaji: 'Jūgatsu',
+        audioSrc: './month-audio/Jugatsu.mp3',
+        examples: [
+            "じゅうがつ は かぼちゃ の じかん です(Jūgatsu wa kabocha no jikan desu.)",
+            "じゅうがつ に かりん が なります(Jūgatsu ni karin ga narimasu.)"
+        ]
+    },
+    {
+        name: 'November',
+        hiragana: 'じゅういちがつ',
+        katakana: 'ジュウイチガツ',
+        romaji: 'Jūichigatsu',
+        audioSrc: './month-audio/Juichigatsu.mp3',
+        examples: [
+            "じゅういちがつ に さんたくろーす が てんさい します(Jūichigatsu ni santakuroosu ga tensai shimasu.)",
+            "じゅういちがつ に いも ほり を します(Jūichigatsu ni imo hori o shimasu.)"
+        ]
+    },
+    {
+        name: 'December',
+        hiragana: 'じゅうにがつ',
+        katakana: 'ジュウニガツ',
+        romaji: 'Jūnigatsu',
+        audioSrc: './month-audio/Junigatsu.mp3',
+        examples: [
+            "じゅうにがつ は クリスマス の ひ です(Jūnigatsu wa Kurisumasu no hi desu.)",
+            "じゅうにがつ に おおぞら に ほし が いっぱい です(Jūnigatsu ni oozora ni hoshi ga ippai desu.)"
+        ]
+    }
+];
+
+        let currentIndex = 0;
+        const characterCard = document.getElementById('characterCard');
+        const audioElement = document.getElementById('audio');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const examplesList = document.getElementById('examplesList');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateCharacterCard(index) {
+            characterCard.querySelector('.character-hiragana').textContent = `Hiragana: ${months[index].hiragana}`;
+            characterCard.querySelector('.character-katakana').textContent = `Month: ${months[index].name}`;
+            characterCard.querySelector('.character-romaji').textContent = `Romanji: ${months[index].romaji}`;
+            audioElement.src = months[index].audioSrc;
+
+            // Clear existing examples
+            examplesList.innerHTML = '';
+
+            // Add examples
+            months[index].examples.forEach(example => {
+                const listItem = document.createElement('li');
+                listItem.textContent = example;
+                examplesList.appendChild(listItem);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + months.length) % months.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % months.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first month
+        updateCharacterCard(currentIndex);
+    </script>
+</body>
+</html>

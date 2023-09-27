@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numbers</title>
+    <!-- Add a link to your CSS file if you have one -->
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+
+<body>
+    <header>
+        <h1>Numbers in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                    <div class="character-number">Number: </div>
+
+                    <div class="character-hiragana">Hiragana: あ</div>
+                    <div class="character-romaji">Romanji: </div>
+
+
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for each month with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const numbersData = [
+            {
+                "number": "1",
+                "hiragana": "いち",
+                "kanji": "一",
+                "romaji": "ichi",
+                "audioSrc": "./number-audio/ichi.mp3",
+                "examples": [
+                    "これはいちは数字の1で、東京の一等地にあります(Kore wa ichi wa suuji no 1 de, Tōkyō no ittōchi ni arimasu.)",
+                    "いちにすると、この町はとても静かです(Ichi ni suruto, kono machi wa totemo shizuka desu.)"
+                ]
+            },
+            {
+                "number": "2",
+                "hiragana": "に",
+                "kanji": "二",
+                "romaji": "ni",
+                "audioSrc": "./number-audio/ni.mp3",
+                "examples": [
+                    "このレストランはニューヨークにあります(Kono resutoran wa Nyūyōku ni arimasu.)",
+                    "にの場所は山のふもとにあります(Ni no basho wa yama no fumoto ni arimasu.)"
+                ]
+            },
+            {
+                "number": "3",
+                "hiragana": "さん",
+                "kanji": "三",
+                "romaji": "san",
+                "audioSrc": "./number-audio/san.mp3",
+                "examples": [
+                    "この川は三つの国を通ります(Kono kawa wa mittsu no kuni o toorimasu.)",
+                    "サンフランシスコは三つの大きな橋で有名です(Sanfuranshisuko wa mittsu no ōkina hashi de yūmei desu.)"
+                ]
+            },
+            {
+                "number": "4",
+                "hiragana": "し",
+                "kanji": "四",
+                "romaji": "shi",
+                "audioSrc": "./number-audio/shi.mp3",
+                "examples": [
+                    "四季折々の美しい風景があります(Shiki-orie no utsukushii fūkei ga arimasu.)",
+                    "この建物は四つの異なるデザインがあります(Kono tatemono wa yottsu no kotonaru dezain ga arimasu.)"
+                ]
+            },
+            {
+                "number": "5",
+                "hiragana": "ご",
+                "kanji": "五",
+                "romaji": "go",
+                "audioSrc": "./number-audio/go.mp3",
+                "examples": [
+                    "この公園には五つの遊び場があります(Kono kōen ni wa itsutsu no asobiba ga arimasu.)",
+                    "五人の友達と一緒に旅行に行きました(Gonin no tomodachi to issho ni ryokō ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "6",
+                "hiragana": "ろく",
+                "kanji": "六",
+                "romaji": "roku",
+                "audioSrc": "./number-audio/roku.mp3",
+                "examples": [
+                    "六本木ヒルズは東京の有名な観光スポットです(Roppongi Hiruzu wa Tōkyō no yūmei na kankō supotto desu.)",
+                    "このお店では六種類のピザが提供されています(Kono o mise de wa rokusshurui no piza ga teikyō sareteimasu.)"
+                ]
+            },
+            {
+                "number": "7",
+                "hiragana": "しち",
+                "kanji": "七",
+                "romaji": "shichi",
+                "audioSrc": "./number-audio/shichi.mp3",
+                "examples": [
+                    "七つの湖が周りに広がっています(Nanatsu no mizuumi ga mawari ni hirogatteimasu.)",
+                    "この祭りは毎年七月に開催されます(Kono matsuri wa maitoshi shichigatsu ni kaisai saremasu.)"
+                ]
+            },
+            {
+                "number": "8",
+                "hiragana": "はち",
+                "kanji": "八",
+                "romaji": "hachi",
+                "audioSrc": "./number-audio/hachi.mp3",
+                "examples": [
+                    "この街には八つの美術館があります(Kono machi ni wa yattsu no bijutsukan ga arimasu.)",
+                    "八つの異なる文化が交わります(Yattsu no kotonaru bunka ga majiwarimasu.)"
+                ]
+            },
+            {
+                "number": "9",
+                "hiragana": "く",
+                "kanji": "九",
+                "romaji": "ku",
+                "audioSrc": "./number-audio/ku.mp3",
+                "examples": [
+                    "この寺院には九重の塔があります(Kono jiin ni wa kokonoe no tō ga arimasu.)",
+                    "九つの星座が夜空に輝いています(Kokonotsu no seiza ga yozora ni kagayaiteimasu.)"
+                ]
+            },
+            {
+                "number": "10",
+                "hiragana": "じゅう",
+                "audioSrc": "./number-audio/10.mp3",
+                "examples": [
+                    "10の子供は本を読むことが好きです(10 no kodomo wa hon o yomu koto ga suki desu.)",
+                    "10の誕生日に友達と映画を観に行きました(10 no tanjoubi ni tomodachi to eigai o mi ni ikimashita.)"
+                ]
+            },
+
+            {
+                "number": "11",
+                "hiragana": "じゅういち",
+                "kanji": "十一",
+                "romaji": "juuichi",
+                "audioSrc": "./number-audio/juuichi.mp3",
+                "examples": [
+                    "十一月にはたくさんの祭りが開催されます(Jūichi-gatsu ni wa takusan no matsuri ga kaisai saremasu.)",
+                    "十一人の友達と一緒にピクニックに行きました(Jūichinin no tomodachi to issho ni pikunikku ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "12",
+                "hiragana": "じゅうに",
+                "kanji": "十二",
+                "romaji": "juuni",
+                "audioSrc": "./number-audio/juuni.mp3",
+                "examples": [
+                    "十二星座は夜空に美しい模様を描きます(Jūniseiza wa yozora ni utsukushii moyō o egakimasu.)",
+                    "十二の月で四季が分かれています(Jūni no tsuki de shiki ga wakareteimasu.)"
+                ]
+            },
+            {
+                "number": "13",
+                "hiragana": "じゅうさん",
+                "kanji": "十三",
+                "romaji": "juusan",
+                "audioSrc": "./number-audio/juusan.mp3",
+                "examples": [
+                    "十三階建てのビルがそびえ立っています(Jūsankaidate no biru ga sobietatteimasu.)",
+                    "十三の地域で古代遺跡が発見されました(Jūsan no chiiki de kodai iseki ga hakken sa remashita.)"
+                ]
+            },
+            {
+                "number": "14",
+                "hiragana": "じゅうよん",
+                "kanji": "十四",
+                "romaji": "juuyon",
+                "audioSrc": "./number-audio/juuyon.mp3",
+                "examples": [
+                    "十四日はバレンタインデーです(Jūyokka wa Barentaindē desu.)",
+                    "十四の村々が美しい自然に囲まれています(Jūshi no muramura ga utsukushii shizen ni kakomareteimasu.)"
+                ]
+            },
+            {
+                "number": "15",
+                "hiragana": "じゅうご",
+                "kanji": "十五",
+                "romaji": "juugo",
+                "audioSrc": "./number-audio/juugo.mp3",
+                "examples": [
+                    "十五歳の誕生日に新しい自転車をもらいました(Jūgosa no tanjoubi ni atarashii jitensha o moraimashita.)",
+                    "十五の国が協力して国際イベントを開催しました(Jūgo no kuni ga kyōryoku shite kokusai ibento o kaisai shimashita.)"
+                ]
+            },
+            {
+                "number": "16",
+                "hiragana": "じゅうろく",
+                "kanji": "十六",
+                "romaji": "juuroku",
+                "audioSrc": "./number-audio/juuroku.mp3",
+                "examples": [
+                    "十六夜には月が美しく輝いています(Jūroku ya ni wa tsuki ga utsukushiku kagayaiteimasu.)",
+                    "十六のチームが優勝しました(Jūroku no chīmu ga yūshō shimashita.)"
+                ]
+            },
+            {
+                "number": "17",
+                "hiragana": "じゅうしち",
+                "kanji": "十七",
+                "romaji": "juushichi",
+                "audioSrc": "./number-audio/juushichi.mp3",
+                "examples": [
+                    "十七歳の若者が新しいアイデアを持っています(Jūshichisai no wakamono ga atarashii aidea o motteimasu.)",
+                    "十七の花火大会が夏祭りで開催されました(Jūshichi no hanabitaikai ga natsumatsuri de kaisai sa remashita.)"
+                ]
+            },
+            {
+                "number": "18",
+                "hiragana": "じゅうはち",
+                "kanji": "十八",
+                "romaji": "juuhachi",
+                "audioSrc": "./number-audio/juuhachi.mp3",
+                "examples": [
+                    "十八番のお寿司屋さんで美味しい寿司を食べました(Jūhachiban no osushiya-san de oishii sushi o tabemashita.)",
+                    "十八の国からアスリートが参加しました(Jūhachi no kuni kara asurīto ga sankashimashita.)"
+                ]
+            },
+            {
+                "number": "19",
+                "hiragana": "じゅうきゅう",
+                "kanji": "十九",
+                "romaji": "juukyuu",
+                "audioSrc": "./number-audio/juukyuu.mp3",
+                "examples": [
+                    "十九日には大切な友達の誕生日パーティーがあります(Jūkyūka ni wa taisetsu na tomodachi no tanjoubi pātī ga arimasu.)",
+                    "十九の音楽家が共演します(Jūkyū no ongakuka ga kyōen shimasu.)"
+                ]
+            },
+            {
+                "number": "20",
+                "hiragana": "にじゅっ",
+                "kanji": "二十",
+                "romaji": "nijuu",
+                "audioSrc": "./number-audio/nijuu.mp3",
+                "examples": [
+                    "二十歳の誕生日に大人の仲間入りです(Nijussai no tanjoubi ni otona no nakamairi desu.)",
+                    "この町には二十の公園があります(Kono machi ni wa nijuu no koen ga arimasu.)"
+                ]
+            },
+
+            {
+                "number": "30",
+                "hiragana": "さんじゅっ",
+                "kanji": "三十",
+                "romaji": "sanjuu",
+                "audioSrc": "./number-audio/sanjuu.mp3",
+                "examples": [
+                    "30分で終了予定です(Sanjuu-fun de shuuryou yotei desu.)",
+                    "30分たっても休憩中です(Sanjuu-fun tatte mo kyuukeichuu desu.)"
+                ]
+            },
+            {
+                "number": "40",
+                "hiragana": "よんじゅっ",
+                "kanji": "四十",
+                "romaji": "yonjuu",
+                "audioSrc": "./number-audio/yonjuu.mp3",
+                "examples": [
+                    "40人がこのイベントに参加しました(Yonjuu-nin ga kono ibento ni sankashimashita.)",
+                    "40個のりんごを買いました(Yonjuu-ko no ringo o kaimashita.)"
+                ]
+            },
+            {
+                "number": "50",
+                "hiragana": "ごじゅっ",
+                "kanji": "五十",
+                "romaji": "gojuu",
+                "audioSrc": "./number-audio/gojuu.mp3",
+                "examples": [
+                    "50冊の本を読む予定です(Gojuu-satsu no hon o yomu yotei desu.)",
+                    "50分で目的地に到着しました(Gojuu-fun de mokutekichi ni touchaku shimashita.)"
+                ]
+            },
+            {
+                "number": "60",
+                "hiragana": "ろくじゅっ",
+                "kanji": "六十",
+                "romaji": "rokujuu",
+                "audioSrc": "./number-audio/rokujuu.mp3",
+                "examples": [
+                    "60歳の祖母は元気です(Rokujuu-sai no sobo wa genki desu.)",
+                    "60分間のヨガクラスに参加しました(Rokujuu-funkan no yoga kurasu ni sankashimashita.)"
+                ]
+            },
+            {
+                "number": "70",
+                "hiragana": "ななじゅっ",
+                "kanji": "七十",
+                "romaji": "nanajuu",
+                "audioSrc": "./number-audio/nanajuu.mp3",
+                "examples": [
+                    "70人のゲストが来ました(Nanajuu-nin no gesuto ga kimashita.)",
+                    "70歳の祖父は趣味が多彩です(Nanajuu-sai no sofu wa shumi ga tasai desu.)"
+                ]
+            },
+            {
+                "number": "80",
+                "hiragana": "はちじゅっ",
+                "kanji": "八十",
+                "romaji": "hachijuu",
+                "audioSrc": "./number-audio/hachijuu.mp3",
+                "examples": [
+                    "80冊の本が図書館にあります(Hachijuu-satsu no hon ga toshokan ni arimasu.)",
+                    "80分で仕事を終えました(Hachijuu-fun de shigoto o oemashita.)"
+                ]
+            },
+            {
+                "number": "90",
+                "hiragana": "きゅうじゅっ",
+                "kanji": "九十",
+                "romaji": "kyuujuu",
+                "audioSrc": "./number-audio/kyuujuu.mp3",
+                "examples": [
+                    "90キロメートルのレースに参加します(Kyuujuu kiromeetoru no reesu ni sankashimasu.)",
+                    "90歳のおじいさんは物語を語ってくれました(Kyuujuu-sai no ojiisan wa monogatari o katatte kuremashita.)"
+                ]
+            },
+            {
+                "number": "100",
+                "hiragana": "ひゃく",
+                "kanji": "百",
+                "romaji": "hyaku",
+                "audioSrc": "./number-audio/hyaku.mp3",
+                "examples": [
+                    "100人の学生が卒業しました(Hyaku-nin no gakusei ga sotsugyou shimashita.)",
+                    "100本の花が咲いています(Hyaku-hon no hana ga saiteimasu.)"
+                ]
+            },
+            {
+                "number": "1000",
+                "hiragana": "せん",
+                "kanji": "千",
+                "romaji": "sen",
+                "audioSrc": "./number-audio/sen.mp3",
+                "examples": [
+                    "1000冊の本を整理しました(Sen-satsu no hon o seiri shimashita.)",
+                    "1000円札を見つけました(Sen-en satsu o mitsukemashita.)"
+                ]
+            },
+            {
+                "number": "10000",
+                "hiragana": "まん",
+                "kanji": "万",
+                "romaji": "man",
+                "audioSrc": "./number-audio/man.mp3",
+                "examples": [
+                    "10000歩歩いて健康を保ちます(Ichiman-bu aruite kenkou o tamochimasu.)",
+                    "10000人の観客がコンサートに訪れました(Ichiman-nin no kankyaku ga konsaato ni otozuremashita.)"
+                ]
+            },
+
+           
+        ];
+
+        let currentIndex = 0;
+        const characterCard = document.getElementById('characterCard');
+        const audioElement = document.getElementById('audio');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const examplesList = document.getElementById('examplesList');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateCharacterCard(index) {
+            characterCard.querySelector('.character-hiragana').textContent = `Hiragana: ${numbersData[index].hiragana}`;
+
+            characterCard.querySelector('.character-number').textContent = `Number: ${numbersData[index].number}`;
+            characterCard.querySelector('.character-romaji').textContent = `Romanji: ${numbersData[index].romaji}`;
+            audioElement.src = numbersData[index].audioSrc;
+
+            // Clear existing examples
+            examplesList.innerHTML = '';
+
+            // Add examples
+            numbersData[index].examples.forEach(example => {
+                const listItem = document.createElement('li');
+                listItem.textContent = example;
+                examplesList.appendChild(listItem);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + numbersData.length) % numbersData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % numbersData.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first number
+        updateCharacterCard(currentIndex);
+    </script>
+</body>
+
+</html>

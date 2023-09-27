@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiragana and Katakana</title>
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+<body>
+    <header>
+        <h1>Hiragana and Katakana</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                    <div class="character-label"></div>
+                    <div class="character-hiragana">Hiragana: あ</div>
+                    <div class="character-katakana">Katakana: ア</div>
+                    <div class="character-romaji">Romanji: a</div>
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for each number with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+       const characterData = [
+       { 
+        hiragana: 'あ', 
+        katakana: 'ア', 
+        romaji: 'a', 
+        audioSrc: './hiragana-audio/a.mp3',
+        examples: [
+            "これはあです(Kore wa a desu.)",
+            "あたま(Atama)"
+        ]
+    },
+    { 
+        hiragana: 'い', 
+        katakana: 'イ', 
+        romaji: 'i', 
+        audioSrc: './hiragana-audio/i.mp3',
+        examples: [
+            "これはいです(Kore wa i desu.)",
+            "いぬ(Inu)"
+        ]
+    },
+    // Add more hiragana characters here
+    { 
+        hiragana: 'う', 
+        katakana: 'ウ', 
+        romaji: 'u', 
+        audioSrc: './hiragana-audio/u.mp3',
+        examples: [
+            "これはうです(Kore wa u desu.)",
+            "うち(Uchi)"
+        ]
+    },
+    { 
+        hiragana: 'え', 
+        katakana: 'エ', 
+        romaji: 'e', 
+        audioSrc: './hiragana-audio/e.mp3',
+        examples: [
+            "これはえです(Kore wa e desu.)",
+            "えんぴつ(Enpitsu)"
+        ]
+    },
+    { 
+        hiragana: 'お', 
+        katakana: 'オ', 
+        romaji: 'o', 
+        audioSrc: './hiragana-audio/o.mp3',
+        examples: [
+            "これはおです(Kore wa o desu.)",
+            "おかあさん(Okāsan)"
+        ]
+    },
+    { 
+        hiragana: 'か', 
+        katakana: 'カ', 
+        romaji: 'ka', 
+        audioSrc: './hiragana-audio/ka.mp3',
+        examples: [
+            "これはかです(Kore wa ka desu.)",
+            "かさ(Kasa)"
+        ]
+    },
+    { 
+        hiragana: 'き', 
+        katakana: 'キ', 
+        romaji: 'ki', 
+        audioSrc: './hiragana-audio/ki.mp3',
+        examples: [
+            "これはきです(Kore wa ki desu.)",
+            "きょう(Kyō)"
+        ]
+    },
+    { 
+        hiragana: 'く', 
+        katakana: 'ク', 
+        romaji: 'ku', 
+        audioSrc: './hiragana-audio/ku.mp3',
+        examples: [
+            "これはくです(Kore wa ku desu.)",
+            "くつ(Kutsu)"
+        ]
+    },
+    { 
+        hiragana: 'け', 
+        katakana: 'ケ', 
+        romaji: 'ke', 
+        audioSrc: './hiragana-audio/ke.mp3',
+        examples: [
+            "これはけです(Kore wa ke desu.)",
+            "けいた(Kaita)"
+        ]
+    },
+    { 
+        hiragana: 'こ', 
+        katakana: 'コ', 
+        romaji: 'ko', 
+        audioSrc: './hiragana-audio/ko.mp3',
+        examples: [
+            "これはこです(Kore wa ko desu.)",
+            "こい(Koi)"
+        ]
+    },
+    { 
+        hiragana: 'さ', 
+        katakana: 'サ', 
+        romaji: 'sa', 
+        audioSrc: './hiragana-audio/sa.mp3',
+        examples: [
+            "これはさです(Kore wa sa desu.)",
+            "さくらんぼ(Sakuranbo)"
+        ]
+    },
+    { 
+        hiragana: 'し', 
+        katakana: 'シ', 
+        romaji: 'shi', 
+        audioSrc: './hiragana-audio/shi.mp3',
+        examples: [
+            "これはしです(Kore wa shi desu.)",
+            "しんぶん(Shinbun)"
+        ]
+    },
+    { 
+        hiragana: 'す', 
+        katakana: 'ス', 
+        romaji: 'su', 
+        audioSrc: './hiragana-audio/su.mp3',
+        examples: [
+            "これはすです(Kore wa su desu.)",
+            "すし(Sushi)"
+        ]
+    },
+    { 
+        hiragana: 'せ', 
+        katakana: 'セ', 
+        romaji: 'se', 
+        audioSrc: './hiragana-audio/se.mp3',
+        examples: [
+            "これはせです(Kore wa se desu.)",
+            "せんせい(Sensei)"
+        ]
+    },
+    { 
+        hiragana: 'そ', 
+        katakana: 'ソ', 
+        romaji: 'so', 
+        audioSrc: './hiragana-audio/so.mp3',
+        examples: [
+            "これはそです(Kore wa so desu.)",
+            "そら(Sora)"
+        ]
+    },
+    { 
+        hiragana: 'た', 
+        katakana: 'タ', 
+        romaji: 'ta', 
+        audioSrc: './hiragana-audio/ta.mp3',
+        examples: [
+            "これはたです(Kore wa ta desu.)",
+            "たけ(Take)"
+        ]
+    },
+    { 
+        hiragana: 'ち', 
+        katakana: 'チ', 
+        romaji: 'chi', 
+        audioSrc: './hiragana-audio/chi.mp3',
+        examples: [
+            "これはちです(Kore wa chi desu.)",
+            "ちず(Chizu)"
+        ]
+    },
+    { 
+        hiragana: 'つ', 
+        katakana: 'ツ', 
+        romaji: 'tsu', 
+        audioSrc: './hiragana-audio/tsu.mp3',
+        examples: [
+            "これはつです(Kore wa tsu desu.)",
+            "つき(Tsuki)"
+        ]
+    },
+    { 
+        hiragana: 'て', 
+        katakana: 'テ', 
+        romaji: 'te', 
+        audioSrc: './hiragana-audio/te.mp3',
+        examples: [
+            "これはてです(Kore wa te desu.)",
+            "てがみ(Tegami)"
+        ]
+    },
+    { 
+        hiragana: 'と', 
+        katakana: 'ト', 
+        romaji: 'to', 
+        audioSrc: './hiragana-audio/to.mp3',
+        examples: [
+            "これはとです(Kore wa to desu.)",
+            "とけい(Tokei)"
+        ]
+    },
+    { 
+        hiragana: 'な', 
+        katakana: 'ナ', 
+        romaji: 'na', 
+        audioSrc: './hiragana-audio/na.mp3',
+        examples: [
+            "これはなです(Kore wa na desu.)",
+            "なまえ(Namae)"
+        ]
+    },
+    { 
+        hiragana: 'に', 
+        katakana: 'ニ', 
+        romaji: 'ni', 
+        audioSrc: './hiragana-audio/ni.mp3',
+        examples: [
+            "これはにです(Kore wa ni desu.)",
+            "にんぎょう(Ningyō)"
+        ]
+    },
+    { 
+        hiragana: 'ぬ', 
+        katakana: 'ヌ', 
+        romaji: 'nu', 
+        audioSrc: './hiragana-audio/nu.mp3',
+        examples: [
+            "これはぬです(Kore wa nu desu.)",
+            "ぬま(Numa)"
+        ]
+    },
+    { 
+        hiragana: 'ね', 
+        katakana: 'ネ', 
+        romaji: 'ne', 
+        audioSrc: './hiragana-audio/ne.mp3',
+        examples: [
+            "これはねです(Kore wa ne desu.)",
+            "ねこ(Neko)"
+        ]
+    },
+    { 
+        hiragana: 'の', 
+        katakana: 'ノ', 
+        romaji: 'no', 
+        audioSrc: './hiragana-audio/no.mp3',
+        examples: [
+            "これはのです(Kore wa no desu.)",
+            "のみもの(Nomimono)"
+        ]
+    },
+    { 
+        hiragana: 'は', 
+        katakana: 'ハ', 
+        romaji: 'ha', 
+        audioSrc: './hiragana-audio/ha.mp3',
+        examples: [
+            "これははです(Kore wa ha desu.)",
+            "はな(Hana)"
+        ]
+    },
+    { 
+        hiragana: 'ひ', 
+        katakana: 'ヒ', 
+        romaji: 'hi', 
+        audioSrc: './hiragana-audio/hi.mp3',
+        examples: [
+            "これはひです(Kore wa hi desu.)",
+            "ひる(Hiru)"
+        ]
+    },
+    { 
+        hiragana: 'ふ', 
+        katakana: 'フ', 
+        romaji: 'fu', 
+        audioSrc: './hiragana-audio/fu.mp3',
+        examples: [
+            "これはふです(Kore wa fu desu.)",
+            "ふうせん(Fūsen)"
+        ]
+    },
+    { 
+        hiragana: 'へ', 
+        katakana: 'ヘ', 
+        romaji: 'he', 
+        audioSrc: './hiragana-audio/he.mp3',
+        examples: [
+            "これはへです(Kore wa he desu.)",
+            "へや(Heya)"
+        ]
+    },
+    { 
+        hiragana: 'ほ', 
+        katakana: 'ホ', 
+        romaji: 'ho', 
+        audioSrc: './hiragana-audio/ho.mp3',
+        examples: [
+            "これはほです(Kore wa ho desu.)",
+            "ほん(Hon)"
+        ]
+    },
+    { 
+        hiragana: 'ま', 
+        katakana: 'マ', 
+        romaji: 'ma', 
+        audioSrc: './hiragana-audio/ma.mp3',
+        examples: [
+            "これはまです(Kore wa ma desu.)",
+            "まど(Mado)"
+        ]
+    },
+    { 
+        hiragana: 'み', 
+        katakana: 'ミ', 
+        romaji: 'mi', 
+        audioSrc: './hiragana-audio/mi.mp3',
+        examples: [
+            "これはみです(Kore wa mi desu.)",
+            "みせ(Mise)"
+        ]
+    },
+    { 
+        hiragana: 'む', 
+        katakana: 'ム', 
+        romaji: 'mu', 
+        audioSrc: './hiragana-audio/mu.mp3',
+        examples: [
+            "これはむです(Kore wa mu desu.)",
+            "むし(Mushi)"
+        ]
+    },
+    { 
+        hiragana: 'め', 
+        katakana: 'メ', 
+        romaji: 'me', 
+        audioSrc: './hiragana-audio/me.mp3',
+        examples: [
+            "これはめです(Kore wa me desu.)",
+            "めがね(Megane)"
+        ]
+    },
+    { 
+        hiragana: 'も', 
+        katakana: 'モ', 
+        romaji: 'mo', 
+        audioSrc: './hiragana-audio/mo.mp3',
+        examples: [
+            "これはもです(Kore wa mo desu.)",
+            "もも(Momo)"
+        ]
+    },
+    { 
+        hiragana: 'や', 
+        katakana: 'ヤ', 
+        romaji: 'ya', 
+        audioSrc: './hiragana-audio/ya.mp3',
+        examples: [
+            "これはやです(Kore wa ya desu.)",
+            "やま(Yama)"
+        ]
+    },
+    { 
+        hiragana: 'ゆ', 
+        katakana: 'ユ', 
+        romaji: 'yu', 
+        audioSrc: './hiragana-audio/yu.mp3',
+        examples: [
+            "これはゆです(Kore wa yu desu.)",
+            "ゆき(Yuki)"
+        ]
+    },
+    { 
+        hiragana: 'よ', 
+        katakana: 'ヨ', 
+        romaji: 'yo', 
+        audioSrc: './hiragana-audio/yo.mp3',
+        examples: [
+            "これはよです(Kore wa yo desu.)",
+            "よる(Yoru)"
+        ]
+    },
+    { 
+        hiragana: 'ら', 
+        katakana: 'ラ', 
+        romaji: 'ra', 
+        audioSrc: './hiragana-audio/ra.mp3',
+        examples: [
+            "これはらです(Kore wa ra desu.)",
+            "らいおん(Raion)"
+        ]
+    },
+    { 
+        hiragana: 'り', 
+        katakana: 'リ', 
+        romaji: 'ri', 
+        audioSrc: './hiragana-audio/ri.mp3',
+        examples: [
+            "これはりです(Kore wa ri desu.)",
+            "りんご(Ringo)"
+        ]
+    },
+    { 
+        hiragana: 'る', 
+        katakana: 'ル', 
+        romaji: 'ru', 
+        audioSrc: './hiragana-audio/ru.mp3',
+        examples: [
+            "これはるです(Kore wa ru desu.)",
+            "るす(Rusu)"
+        ]
+    },
+    { 
+        hiragana: 'れ', 
+        katakana: 'レ', 
+        romaji: 're', 
+        audioSrc: './hiragana-audio/re.mp3',
+        examples: [
+            "これはれです(Kore wa re desu.)",
+            "れんしゅう(Renshū)"
+        ]
+    },
+    { 
+        hiragana: 'ろ', 
+        katakana: 'ロ', 
+        romaji: 'ro', 
+        audioSrc: './hiragana-audio/ro.mp3',
+        examples: [
+            "これはろです(Kore wa ro desu.)",
+            "ろうそく(Rōsoku)"
+        ]
+    },
+    { 
+        hiragana: 'わ', 
+        katakana: 'ワ', 
+        romaji: 'wa', 
+        audioSrc: './hiragana-audio/wa.mp3',
+        examples: [
+            "これはわです(Kore wa wa desu.)",
+            "わたし(Watashi)"
+        ]
+    },
+    { 
+        hiragana: 'を', 
+        katakana: 'ヲ', 
+        romaji: 'wo', 
+        audioSrc: './hiragana-audio/wo.mp3',
+        examples: [
+            "これはをです(Kore wa wo desu.)",
+            "をかし(O-kashi)"
+        ]
+    },
+    { 
+        hiragana: 'ん', 
+        katakana: 'ン', 
+        romaji: 'n', 
+        audioSrc: './hiragana-audio/n.mp3',
+        examples: [
+            "これはんです(Kore wa n desu.)",
+            "ねこ(Neko)"
+        ]
+    },
+];
+
+let currentIndex = 0;
+const characterCard = document.getElementById('characterCard');
+const audioElement = document.getElementById('audio');
+const prevButton = document.getElementById('prevButton');
+const nextButton = document.getElementById('nextButton');
+const examplesList = document.getElementById('examplesList');
+const showExampleButton = document.getElementById('showExampleButton');
+const hideExampleButton = document.getElementById('hideExampleButton');
+const exampleContainer = document.getElementById('exampleContainer');
+
+function updateCharacterCard(index) {
+    characterCard.querySelector('.character-hiragana').textContent = `Hiragana: ${characterData[index].hiragana}`;
+    characterCard.querySelector('.character-katakana').textContent = `Katakana: ${characterData[index].katakana}`;
+    characterCard.querySelector('.character-romaji').textContent = `Romanji: ${characterData[index].romaji}`;
+    audioElement.src = characterData[index].audioSrc;
+
+    // Clear existing examples
+    examplesList.innerHTML = '';
+
+    // Add examples
+    characterData[index].examples.forEach(example => {
+        const listItem = document.createElement('li');
+        listItem.textContent = example;
+        examplesList.appendChild(listItem);
+    });
+}
+
+prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + characterData.length) % characterData.length;
+    updateCharacterCard(currentIndex);
+});
+
+nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % characterData.length;
+    updateCharacterCard(currentIndex);
+});
+
+showExampleButton.addEventListener('click', () => {
+    exampleContainer.style.display = 'block';
+});
+
+hideExampleButton.addEventListener('click', () => {
+    exampleContainer.style.display = 'none';
+});
+
+// Initialize with the first character
+updateCharacterCard(currentIndex);
+</script>
+</body>
+</html>

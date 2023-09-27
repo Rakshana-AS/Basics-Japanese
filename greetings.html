@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greetings</title>
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+<body>
+    <header>
+        <h1>Greetings in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevButton">◄</button>
+            <section class="character-card" id="characterCard">
+                <div class="character-info">
+                    <div class="character-label"></div>
+                    <div class="character-english">Greeting: Hello</div>
+                    <div class="character-japanese">Japanese: こんにちは</div>
+                    <div class="character-romaji">Romaji: Konnichiwa</div>
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for greetings with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="examplesList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const japaneseGreetings = [
+    {
+        greeting: 'こんにちは',
+        romaji: 'Konnichiwa',
+        audioSrc: './greetings-audio/konnichiwa.mp3',
+        english: 'Hello',
+        examples: [
+            "こんにちは、元気ですか？ (Konnichiwa, genki desu ka?)",
+            "こんにちは、お疲れ様です (Konnichiwa, otsukaresama desu)"
+        ]
+    },
+    {
+        greeting: 'おはよう',
+        romaji: 'Ohayou',
+        audioSrc: './greetings-audio/ohayou.mp3',
+        english: 'Good morning',
+        examples: [
+            "おはよう、元気ですか？ (Ohayou, genki desu ka?)",
+            "おはよう、お疲れ様です (Ohayou, otsukaresama desu)"
+        ]
+    },
+    {
+        greeting: 'すみません',
+        romaji: 'Sumimasen',
+        audioSrc: './greetings-audio/sumimasen.mp3',
+        english: 'Excuse Me / I\'m Sorry',
+        examples: [
+            "すみません、ちょっと聞いてもいいですか？ (Sumimasen, chotto kiitemo ii desu ka?)",
+            "遅れてしまってすみません (Okurete shimatte sumimasen)"
+        ]
+    },
+    {
+        greeting: 'ありがとう',
+        romaji: 'Arigatou',
+        audioSrc: './greetings-audio/arigatou.mp3',
+        english: 'Thank You',
+        examples: [
+            "ありがとう、助かりました (Arigatou, tasukarimashita)",
+            "おいしいご飯、ありがとう (Oishii gohan, arigatou)"
+        ]
+    },
+    {
+        greeting: 'お願いします',
+        romaji: 'Onegaishimasu',
+        audioSrc: './greetings-audio/onegaishimasu.mp3',
+        english: 'Please',
+        examples: [
+            "お願いします、手伝ってください (Onegaishimasu, tetsudatte kudasai)",
+            "これを持ってください、お願いします (Kore o motte kudasai, onegaishimasu)"
+        ]
+    },
+    {
+        greeting: 'さようなら',
+        romaji: 'Sayounara',
+        audioSrc: './greetings-audio/sayounara.mp3',
+        english: 'Goodbye',
+        examples: [
+            "さようなら、またね (Sayounara, mata ne)",
+            "明日、さようなら (Ashita, sayounara)"
+        ]
+    },
+    
+    {
+        greeting: 'こんばんは',
+        romaji: 'Konbanwa',
+        audioSrc: './greetings-audio/konbanwa.mp3',
+        english: 'Good evening',
+        examples: [
+            "こんばんは、どうでしたか？ (Konbanwa, dou deshita ka?)",
+            "こんばんは、ゆっくり休んでください (Konbanwa, yukkuri yasunde kudasai)"
+        ]
+    },
+    {
+        greeting: 'お元気ですか',
+        romaji: 'Ogenki desu ka',
+        audioSrc: './greetings-audio/ogenkidesuka.mp3',
+        english: 'How are you?',
+        examples: [
+            "お元気ですか、最近どうですか？ (Ogenki desu ka, saikin dou desu ka?)",
+            "お元気ですか、お久しぶりです (Ogenki desu ka, ohisashiburi desu)"
+        ]
+    },
+    {
+        greeting: 'よろしくお願いします',
+        romaji: 'Yoroshiku onegaishimasu',
+        audioSrc: './greetings-audio/yoroshikuonegaishimasu.mp3',
+        english: 'Nice to meet you / Please take care of it',
+        examples: [
+            "よろしくお願いします、一緒に仕事しましょう (Yoroshiku onegaishimasu, issho ni shigoto shimashou)",
+            "よろしくお願いします、お手伝いできますか？ (Yoroshiku onegaishimasu, otetsudai dekimasu ka?)"
+        ]
+    },
+    {
+        greeting: 'お疲れ様でした',
+        romaji: 'Otsukaresama deshita',
+        audioSrc: './greetings-audio/otsukaresamadeshita.mp3',
+        english: 'Thank you for your hard work / Good job',
+        examples: [
+            "お疲れ様でした、素晴らしい仕事でしたね (Otsukaresama deshita, subarashii shigoto deshita ne)",
+            "今日もお疲れ様でした、ゆっくり休んでください (Kyou mo otsukaresama deshita, yukkuri yasunde kudasai)"
+        ]
+    }
+
+
+];
+
+        let currentIndex = 0;
+        const characterCard = document.getElementById('characterCard');
+        const audioElement = document.getElementById('audio');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const examplesList = document.getElementById('examplesList');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateCharacterCard(index) {
+            const currentGreeting = japaneseGreetings[index];
+            characterCard.querySelector('.character-english').textContent = `Greeting: ${currentGreeting.english}`;
+            characterCard.querySelector('.character-japanese').textContent = `Japanese: ${currentGreeting.greeting}`;
+            characterCard.querySelector('.character-romaji').textContent = `Romaji: ${currentGreeting.romaji}`;
+            audioElement.src = currentGreeting.audioSrc;
+
+            // Clear existing examples
+            examplesList.innerHTML = '';
+
+            // Add examples
+            currentGreeting.examples.forEach(example => {
+                const listItem = document.createElement('li');
+                listItem.textContent = example;
+                examplesList.appendChild(listItem);
+            });
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + japaneseGreetings.length) % japaneseGreetings.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % japaneseGreetings.length;
+            updateCharacterCard(currentIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first greeting
+        updateCharacterCard(currentIndex);
+    </script>
+</body>
+</html>

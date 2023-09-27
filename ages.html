@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ages</title>
+    <link rel="stylesheet" href="hiragana.css">
+</head>
+
+<body>
+    <header>
+        <h1>Ages in Japanese</h1>
+    </header>
+
+    <main>
+        <section class="character-container">
+            <button class="navigation-button left" id="prevAgeButton">◄</button>
+            <section class="character-card" id="ageDisplay">
+                <div class="character-info">
+                    <div class="current-age">Year: </div>
+                    <div class="hiragana">Hiragana: </div>
+
+                    <div class="romaji">Romanji: </div>
+                </div>
+                <audio id="audio" controls class="audio-button"></audio>
+            </section>
+            <button class="navigation-button right" id="nextAgeButton">►</button>
+        </section>
+        <div class="example-buttons">
+            <button class="show-example-button" id="showExampleButton">Show Example</button>
+            <button class="hide-example-button" id="hideExampleButton">Hide Example</button>
+        </div>
+
+        <!-- Example containers for ages with unique IDs -->
+        <div class="example-container" id="exampleContainer">
+            <h2>Examples</h2>
+            <ul id="exampleList">
+                <!-- This ul will be populated dynamically using JavaScript -->
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const ages = [
+            {
+                "number": "1",
+                "hiragana": "いっさい",
+                "kanji": "一歳",
+                "romaji": "ichi",
+                "audioSrc": "./age-audio/1-sai.mp3",
+                "examples": [
+                    "1歳の赤ちゃんが歩くことを覚えました(1-sai no akachan ga aruku koto o oboemashita.)",
+                    "1歳の誕生日にケーキを食べました(1-sai no tanjoubi ni keeki o tabemashita.)"
+                ]
+            },
+            {
+                "number": "2",
+                "hiragana": "に さい",
+                "kanji": "二歳",
+                "romaji": "ni",
+                "audioSrc": "./age-audio/2-sai.mp3",
+                "examples": [
+                    "2歳の子供がおもちゃで遊んでいます(2-sai no kodomo ga omocha de asondeimasu.)",
+                    "2歳の誕生日プレゼントが喜ばれました(2-sai no tanjoubi purezento ga yorokobaremashita.)"
+                ]
+            },
+            {
+                "number": "3",
+                "hiragana": "さん さい",
+                "kanji": "三歳",
+                "romaji": "san",
+                "audioSrc": "./age-audio/3-sai.mp3",
+                "examples": [
+                    "3歳の幼児が絵を描いています(3-sai no youji ga e o kaiteimasu.)",
+                    "3歳の誕生日に新しい自転車をもらいました(3-sai no tanjoubi ni atarashii jitensha o moraimashita.)"
+                ]
+            },
+            {
+                "number": "4",
+                "hiragana": "よん さい",
+                "kanji": "四歳",
+                "romaji": "yon",
+                "audioSrc": "./age-audio/4-sai.mp3",
+                "examples": [
+                    "4歳の子供は楽しい絵本を読んでいます(4-sai no kodomo wa tanoshii ehon o yondeimasu.)",
+                    "4歳の誕生日にプールで遊びました(4-sai no tanjoubi ni puuru de asobimashita.)"
+                ]
+            },
+            {
+                "number": "5",
+                "hiragana": "ご さい",
+                "kanji": "五歳",
+                "romaji": "go",
+                "audioSrc": "./age-audio/5-sai.mp3",
+                "examples": [
+                    "5歳の子供が友達と一緒に公園で遊んでいます(5-sai no kodomo ga tomodachi to issho ni kouen de asondeimasu.)",
+                    "5歳の誕生日に大きなケーキを食べました(5-sai no tanjoubi ni ookina keeki o tabemashita.)"
+                ]
+            },
+            {
+                "number": "6",
+                "hiragana": "ろく さい",
+                "kanji": "六歳",
+                "romaji": "roku",
+                "audioSrc": "./age-audio/6-sai.mp3",
+                "examples": [
+                    "6歳の子供は学校で新しい友達を作りました(6-sai no kodomo wa gakkou de atarashii tomodachi o tsukurimashita.)",
+                    "6歳の誕生日に夢中でプレゼントを開けました(6-sai no tanjoubi ni muchuu de purezento o akemashita.)"
+                ]
+            },
+            {
+                "number": "7",
+                "hiragana": "しち さい",
+                "kanji": "七歳",
+                "romaji": "shichi",
+                "audioSrc": "./age-audio/7-sai.mp3",
+                "examples": [
+                    "7歳の子供はスポーツに熱中しています(7-sai no kodomo wa supootsu ni necchuu shiteimasu.)",
+                    "7歳の誕生日に家族でピクニックに行きました(7-sai no tanjoubi ni kazoku de pikunikku ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "8",
+                "hiragana": "はち さい",
+                "kanji": "八歳",
+                "romaji": "hachi",
+                "audioSrc": "./age-audio/8-sai.mp3",
+                "examples": [
+                    "8歳の子供は学校の宿題を頑張っています(8-sai no kodomo wa gakkou no shukudai o ganbatteimasu.)",
+                    "8歳の誕生日にサプライズパーティーが開かれました(8-sai no tanjoubi ni sapuraizu paatii ga hirakaremashita.)"
+                ]
+            },
+            {
+                "number": "9",
+                "hiragana": "きゅう さい",
+                "kanji": "九歳",
+                "romaji": "kyuu",
+                "audioSrc": "./age-audio/9-sai.mp3",
+                "examples": [
+                    "9歳の子供は音楽のレッスンに通っています(9-sai no kodomo wa ongaku no ressun ni kayotteimasu.)",
+                    "9歳の誕生日に新しい楽器をもらいました(9-sai no tanjoubi ni atarashii gakki o moraimashita.)"
+                ]
+            },
+            {
+                "number": "10",
+                "hiragana": "じゅっ さい",
+                "kanji": "十歳",
+                "romaji": "juu",
+                "audioSrc": "./age-audio/10-sai.mp3",
+                "examples": [
+                    "10歳の子供は本を読むことが好きです(10-sai no kodomo wa hon o yomu koto ga suki desu.)",
+                    "10歳の誕生日に友達と映画を観に行きました(10-sai no tanjoubi ni tomodachi to eigai o mi ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "11",
+                "hiragana": "じゅういち さい",
+                "kanji": "十一歳",
+                "romaji": "juuichi",
+                "audioSrc": "./age-audio/11-sai.mp3",
+                "examples": [
+                    "11歳のティーンは新しいスポーツを始めました(11-sai no tiin wa atarashii supootsu o hajimemashita.)",
+                    "11歳の誕生日に自転車で冒険に出かけました(11-sai no tanjoubi ni jitensha de bouken ni dekakemashita.)"
+                ]
+            },
+            {
+                "number": "12",
+                "hiragana": "じゅうに さい",
+                "kanji": "十二歳",
+                "romaji": "juuni",
+                "audioSrc": "./age-audio/12-sai.mp3",
+                "examples": [
+                    "12歳のティーンは学校のクラブ活動に参加しています(12-sai no tiin wa gakkou no kurabu katsudou ni sankashiteimasu.)",
+                    "12歳の誕生日に大切な友達と思い出を作りました(12-sai no tanjoubi ni taisetsu na tomodachi to omoide o tsukurimashita.)"
+                ]
+            },
+            {
+                "number": "13",
+                "hiragana": "じゅうさん さい",
+                "kanji": "十三歳",
+                "romaji": "juusan",
+                "audioSrc": "./age-audio/13-sai.mp3",
+                "examples": [
+                    "13歳のティーンは新しい趣味を見つけました(13-sai no tiin wa atarashii shumi o mitsukemashita.)",
+                    "13歳の誕生日に家族とピクニックに行きました(13-sai no tanjoubi ni kazoku to pikunikku ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "14",
+                "hiragana": "じゅうよん さい",
+                "kanji": "十四歳",
+                "romaji": "juuyon",
+                "audioSrc": "./age-audio/14-sai.mp3",
+                "examples": [
+                    "14歳のティーンは高校に入学しました(14-sai no tiin wa koukou ni nyuugaku shimashita.)",
+                    "14歳の誕生日に友達とカラオケに行きました(14-sai no tanjoubi ni tomodachi to karaoke ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "15",
+                "hiragana": "じゅうご さい",
+                "kanji": "十五歳",
+                "romaji": "juugo",
+                "audioSrc": "./age-audio/15-sai.mp3",
+                "examples": [
+                    "15歳のティーンは運転免許を取得しました(15-sai no tiin wa unten menkyo o shutoku shimashita.)",
+                    "15歳の誕生日に家族でレストランに行きました(15-sai no tanjoubi ni kazoku de resutoran ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "16",
+                "hiragana": "じゅうろく さい",
+                "kanji": "十六歳",
+                "romaji": "juuroku",
+                "audioSrc": "./age-audio/16-sai.mp3",
+                "examples": [
+                    "16歳のティーンは高校を卒業しました(16-sai no tiin wa koukou o sotsugyou shimashita.)",
+                    "16歳の誕生日に友達と映画館に行きました(16-sai no tanjoubi ni tomodachi to eigakan ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "17",
+                "hiragana": "じゅうなな さい",
+                "kanji": "十七歳",
+                "romaji": "juushichi",
+                "audioSrc": "./age-audio/17-sai.mp3",
+                "examples": [
+                    "17歳のティーンは大学に進学しました(17-sai no tiin wa daigaku ni shingaku shimashita.)",
+                    "17歳の誕生日に家族でキャンプに行きました(17-sai no tanjoubi ni kazoku de kyanpu ni ikimashita.)"
+                ]
+            },
+            {
+                "number": "18",
+                "hiragana": "じゅうはち さい",
+                "kanji": "十八歳",
+                "romaji": "juuhachi",
+                "audioSrc": "./age-audio/18-sai.mp3",
+                "examples": [
+                    "18歳のティーンは成人式を迎えました(18-sai no tiin wa seijinshiki o mukaemashita.)",
+                    "18歳の誕生日に友達とレストランで祝いました(18-sai no tanjoubi ni tomodachi to resutoran de iwaimashita.)"
+                ]
+            },
+            {
+                "number": "19",
+                "hiragana": "じゅうきゅう さい",
+                "kanji": "十九歳",
+                "romaji": "juukyuu",
+                "audioSrc": "./age-audio/19-sai.mp3",
+                "examples": [
+                    "19歳のティーンは大学に入学しました(19-sai no tiin wa daigaku ni nyuugaku shimashita.)",
+                    "19歳の誕生日に友達とレストランでお祝いしました(19-sai no tanjoubi ni tomodachi to resutoran de oiwai shimashita.)"
+                ]
+            },
+            {
+                "number": "20",
+                "hiragana": "にじゅっ さい",
+                "kanji": "二十歳",
+                "romaji": "nijussai",
+                "audioSrc": "./age-audio/20-sai.mp3",
+                "examples": [
+                    "20歳のティーンは新しいキャリアをスタートしました(20-sai no tiin wa atarashii kyaria o sutaato shimashita.)",
+                    "20歳の誕生日に家族と旅行に行きました(20-sai no tanjoubi ni kazoku to ryokou ni ikimashita.)"
+                ]
+            },
+        ];
+
+
+        let currentAgeIndex = 0;
+        const ageDisplay = document.getElementById('ageDisplay');
+        const audioElement = document.getElementById('audio');
+        const prevAgeButton = document.getElementById('prevAgeButton');
+        const nextAgeButton = document.getElementById('nextAgeButton');
+        const showExampleButton = document.getElementById('showExampleButton');
+        const hideExampleButton = document.getElementById('hideExampleButton');
+        const exampleList = document.getElementById('exampleList');
+        const exampleContainer = document.getElementById('exampleContainer');
+
+        function updateAgeDisplay(index) {
+            const currentAge = ages[index];
+            ageDisplay.querySelector('.current-age').textContent = 'Year: ' + currentAge.number + ' old';
+            ageDisplay.querySelector('.hiragana').textContent = 'Hiragana: ' + currentAge.hiragana;
+
+            ageDisplay.querySelector('.romaji').textContent = 'Romanji: ' + currentAge.romaji;
+            audioElement.src = currentAge.audioSrc;
+        }
+
+        prevAgeButton.addEventListener('click', () => {
+            currentAgeIndex = (currentAgeIndex - 1 + ages.length) % ages.length;
+            updateAgeDisplay(currentAgeIndex);
+        });
+
+        nextAgeButton.addEventListener('click', () => {
+            currentAgeIndex = (currentAgeIndex + 1) % ages.length;
+            updateAgeDisplay(currentAgeIndex);
+        });
+
+        showExampleButton.addEventListener('click', () => {
+            exampleList.innerHTML = ''; // Clear existing examples
+            const examples = ages[currentAgeIndex].examples;
+            examples.forEach(example => {
+                const li = document.createElement('li');
+                li.textContent = example;
+                exampleList.appendChild(li);
+            });
+            exampleContainer.style.display = 'block';
+        });
+
+        hideExampleButton.addEventListener('click', () => {
+            exampleContainer.style.display = 'none';
+        });
+
+        // Initialize with the first age
+        updateAgeDisplay(currentAgeIndex);
+    </script>
+</body>
+
+</html>
