@@ -126,7 +126,54 @@ footer {
     color: white;
     padding: 10px 0;
 }
+
+/* Responsive styles */
 @media (max-width: 768px) {
-  /* Styles for screens with a max width of 768px (typical tablet size) */
+    /* Stack elements vertically on smaller screens */
+    .character-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navigation-button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .character-card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    header {
+        padding: 10px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    .show-example-button, .hide-example-button {
+        width: 100%;
+        padding: 15px;
+    }
 }
 
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens (mobile) */
+    .character-label {
+        font-size: 1.2rem;
+    }
+
+    .character-hiragana, .character-katakana, .character-romaji {
+        font-size: 1rem;
+    }
+
+    .navigation-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        padding: 5px 10px;
+    }
+}
